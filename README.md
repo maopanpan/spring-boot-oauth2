@@ -1,4 +1,4 @@
-SpringBoot + myBatis + redis + oauth2
+SpringBoot + Spring Security + MyBatis + Redis + oauth2
 
 # oauth2 实现 password,refresh_token
 ### 集成SpringBoot、 Spring Security、 MyBatis、 OAuth2、 Redis实现资源访问授权认证。
