@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- Perf4J appenders -->
+    <!-- This file appender is used to output aggregated performance statistics -->
+    <appender name="performanceAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>F://xjpapp/logs/perf4j.log</File>
+        <encoder>
+            <Pattern>%date %-5level [%thread] %logger{36} [%file:%line] %msg%n</Pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>F://xjpapp/logs/perf4j.%d{yyyy-MM-dd}.log</FileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <!--
+       This AsyncCoalescingStatisticsAppender groups StopWatch log messages
+       into GroupedTimingStatistics messages which it sends on the
+       file appender defined below
+    -->
+    <appender name="CoalescingStatistics" class="org.perf4j.logback.AsyncCoalescingStatisticsAppender">
+        <param name="TimeSlice" value="60000"/>
+        <appender-ref ref="performanceAppender"/>
+        <!-- We add the JMX Appender reference onto the CoalescingStatistics -->
+        <!-- <appender-ref ref="perf4jJmxAppender"/> -->
+    </appender>
+
+    <!--
+      The Perf4J logger. Note that org.perf4j.TimingLogger is the value of the
+      org.perf4j.StopWatch.DEFAULT_LOGGER_NAME constant. Also, note that
+      additivity is set to false, which is usually what is desired - this means
+      that timing statements will only be sent to this logger and NOT to
+      upstream loggers.
+    -->
+    <logger name="org.perf4j.TimingLogger" additivity="false">
+        <level value="info"/>
+        <appender-ref ref="CoalescingStatistics"/>
+    </logger>
+
+    <!-- logback appernder -->
+    <appender name="myConsole" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder  class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy/MM/dd-HH:mm:ss.SSS} %level [%thread] %class:%line>>%msg%n</pattern>
+        </encoder >
+    </appender>
+
+    <appender name="myFile"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>F://xjpapp/logs/api.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>F://xjpapp/logs/api.log.%d{yyyy-MM-dd-HH}</FileNamePattern>
+            <!--<MaxHistory>30</MaxHistory>-->
+        </rollingPolicy>
+        <encoder  class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy/MM/dd-HH:mm:ss.SSS} %level [%thread] %class:%line>>%msg%n</pattern>
+        </encoder >
+        <!-- 只输出level级别以上的日志
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>-->
+    </appender>
+
+    <root>
+        <level value="INFO" />
+        <appender-ref ref="myFile" />
+        <appender-ref ref="myConsole" />
+    </root>
+</configuration>

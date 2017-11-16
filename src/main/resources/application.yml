@@ -1,0 +1,4 @@
+##dev：本地环境；test测试环境；prd测试环境
+spring:
+  profiles:
+    active: dev

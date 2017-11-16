@@ -1,0 +1,32 @@
+##本地环境
+server:
+  port: 8080
+  context-path: /
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 500
+    accesslog:
+      enabled: true
+      directory: F://demo/logs
+
+demo:
+  mybatis:
+    url: jdbc:mysql://127.0.0.1:3306/oauth2_test
+    userName: root
+    password: 123456
+    driverClass: com.mysql.jdbc.Driver
+
+logging:
+  config: classpath:config/logback-dev.xml
+  level: debug
+
+authentication:
+  auth:
+    clientid: rajithapp
+    secret: secret
+    tokenValidityInSeconds: 1800
+spring:
+  redis:
+    host: localhost
+    port: 6379
+    database: 2
